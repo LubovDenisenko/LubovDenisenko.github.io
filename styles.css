@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.book-page {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 75vw;
+    width: 100%;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    border: 3px solid #2c3e50;
+}
+
+
+
+.page-title {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}
+
+.page-content {
+    font-size: 1.4em;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.page-content p {
+    margin-bottom: 20px;
+    text-indent: 20px;
+}
+
+.page-content p:last-child {
+    margin-bottom: 0;
+}
+
+.speech {
+    font-style: italic;
+    font-weight: 500;
+    display: block;
+    margin: 15px 0;
+    padding: 10px 0;
+}
+
+.speech p {
+    margin-bottom: 5px;
+    text-indent: 0;
+    display: block;
+    padding-left: 20px;
+    text-indent: -20px;
+}
+
+.speech p::before {
+    content: '– ';
+}
+
+.speech span::before {
+    content: '— ';
+}
+
+.speech span {
+    font-style: normal;
+    font-weight: normal;
+}
+
+.insight::before {
+    content: '— ';
+}
+
+.insight::after {
+    content: ' —';
+}
+
+.thought {
+    font-style: italic;
+    color: #96ceb4;
+    background: rgba(150, 206, 180, 0.1);
+    padding: 10px 15px;
+    border-left: 4px solid #96ceb4;
+    border-radius: 8px;
+    margin: 15px 0;
+    position: relative;
+    font-weight: 500;
+}
+
+.thought::before {
+    content: '💭';
+    position: absolute;
+    left: -10px;
+    top: 5px;
+    font-size: 1.2em;
+}
+
+.illustration {
+    width: 720px;
+    height: 600px;
+    border-radius: 15px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.nav-button {
+    background: linear-gradient(45deg, #2c3e50, #34495e);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 1.2em;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Segoe UI', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.nav-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-button:active {
+    transform: translateY(0);
+}
+
+.nav-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.page-number {
+    font-size: 1.4em;
+    color: #2c3e50;
+    font-weight: bold;
+    background: white;
+    padding: 8px 16px;
+    border-radius: 15px;
+    /* border: 2px solid #2c3e50; */
+}
+
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+}
+
+.star {
+    position: absolute;
+    color: #ffd93d;
+    font-size: 20px;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.star:nth-child(1) {
+    top: 10%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.star:nth-child(2) {
+    top: 20%;
+    left: 80%;
+    animation-delay: 0.5s;
+}
+
+.star:nth-child(3) {
+    top: 80%;
+    left: 10%;
+    animation-delay: 1s;
+}
+
+.star:nth-child(4) {
+    top: 70%;
+    left: 90%;
+    animation-delay: 1.5s;
+}
+
+.star:nth-child(5) {
+    top: 40%;
+    left: 5%;
+    animation-delay: 2s;
+}
+
+.star:nth-child(6) {
+    top: 60%;
+    left: 95%;
+    animation-delay: 2.5s;
+}
