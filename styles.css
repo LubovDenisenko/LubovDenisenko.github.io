@@ -243,3 +243,106 @@ body {
     left: 95%;
     animation-delay: 2.5s;
 }
+
+/* Адаптация под мобильные устройства */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .book-page {
+        max-width: 95vw;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .page-title {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .page-content {
+        font-size: 1.2em;
+        line-height: 1.5;
+        margin-bottom: 30px;
+    }
+
+    .page-content p {
+        margin-bottom: 15px;
+        text-indent: 15px;
+    }
+
+    .speech {
+        margin: 10px 0;
+        padding: 8px 0;
+    }
+
+    .speech p {
+        padding-left: 15px;
+        text-indent: -15px;
+    }
+
+    .thought {
+        padding: 8px 10px;
+        margin: 10px 0;
+    }
+
+    .illustration {
+        width: 100%;
+        height: 300px;
+        margin: 15px auto;
+    }
+
+    .navigation {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .nav-button {
+        padding: 12px 20px;
+        font-size: 1.1em;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .page-number {
+        font-size: 1.2em;
+        padding: 6px 12px;
+    }
+
+    .stars {
+        display: none;
+        /* Скрываем звезды на мобильных для лучшей производительности */
+    }
+}
+
+@media (max-width: 480px) {
+    .book-page {
+        max-width: 98vw;
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+    }
+
+    .page-content {
+        font-size: 1.1em;
+    }
+
+    .page-content p {
+        margin-bottom: 12px;
+        text-indent: 10px;
+    }
+
+    .speech p {
+        padding-left: 12px;
+        text-indent: -12px;
+    }
+
+    .illustration {
+        height: 250px;
+    }
+}
