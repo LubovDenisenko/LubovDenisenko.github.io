@@ -1,3 +1,33 @@
+@font-face {
+    font-family: 'RedOctoberEroded';
+    src: local('RedOctoberEroded'), local('Red october Eroded'),
+        url('./fonts/RedOctoberEroded-zznw.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Utility class to apply the font where needed */
+
+/* whisper — делает текст тихим и немного мельче, как шепот */
+span.whisper {
+    /* display: inline-block; */
+    font-size: 0.65em;
+    line-height: 1.35;
+    font-style: italic;
+    letter-spacing: -0.3px;
+    /* transform: translateY(1px) scale(0.99); */
+    /* сохраняем читаемость при переносе строк */
+    white-space: normal;
+}
+
+/* Не даём шепоту стать слишком маленьким на мобильных */
+@media (max-width: 480px) {
+    .whisper {
+        font-size: 0.85em;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -61,6 +91,8 @@ body {
     padding: 10px 0;
 }
 
+
+
 .speech p {
     margin-bottom: 5px;
     text-indent: 0;
@@ -73,14 +105,32 @@ body {
     content: '– ';
 }
 
-.speech span::before {
-    content: '— ';
-}
 
 .speech span {
+    font-family: 'Segoe UI', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
     font-style: normal;
     font-weight: normal;
 }
+
+/* Ensure spans with the khelga class use the khelga font even inside .speech */
+.speech span.khelga {
+    font-family: 'RedOctoberEroded', cursive, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.speech span:not(.whisper):not(.khelga)::before {
+    content: '— ';
+}
+
+
+
+.khelga {
+    font-family: 'RedOctoberEroded', cursive, sans-serif;
+}
+
+
+
 
 .insight::before {
     content: '— ';
@@ -111,8 +161,10 @@ body {
 }
 
 .illustration {
-    width: 720px;
-    height: 600px;
+    /* responsive: allow illustration to shrink on narrow layouts but cap at 720px */
+    width: 100%;
+    max-width: 720px;
+    height: auto;
     border-radius: 15px;
     margin: 20px auto;
     display: flex;
@@ -124,11 +176,103 @@ body {
     overflow: hidden;
 }
 
+/* Prevent vertical cropping of illustration images: enforce contain and max-height constraints */
+.illustration {
+    /* ensure the container can shrink while allowing the image to scale down without cropping */
+    height: auto !important;
+    max-height: 720px;
+    /* desktop cap */
+}
+
 .illustration img {
+    display: block;
     width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 15px;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain !important;
+    /* ensure the whole image fits */
+}
+
+/* Breakpoint caps to avoid fixed height cropping */
+@media (max-width: 768px) {
+    .illustration {
+        max-height: 300px;
+    }
+
+    .illustration img {
+        max-height: 100%;
+        width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .illustration {
+        max-height: 250px;
+    }
+
+    .illustration img {
+        max-height: 100%;
+        width: auto;
+    }
+}
+
+@media (max-width: 600px) and (min-resolution: 2dppx) {
+    .illustration {
+        /* keep the IV rules but ensure max-height prevents cropping */
+        min-height: 200px;
+        max-height: 400px;
+    }
+
+    .illustration img {
+        object-fit: contain !important;
+        max-height: 100%;
+        width: auto;
+    }
+}
+
+/* Final overrides to prevent any cropping of illustrations */
+.illustration {
+    /* Remove any forced heights and allow the container to size to its content */
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+    /* make centering via margin work reliably */
+    align-items: unset !important;
+    justify-content: unset !important;
+}
+
+.illustration img {
+    /* Ensure the full image is always visible and scales responsively */
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+}
+
+/* Mobile-safe caps: allow the image to scale using viewport rather than fixed container heights */
+@media (max-width: 768px) {
+    .illustration {
+        max-height: none !important;
+        height: auto !important;
+    }
+
+    .illustration img {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* Ensure images placed directly in content are centered */
+.page-content img {
+    display: block;
+    margin: 18px auto;
+    max-width: 100%;
+    height: auto;
 }
 
 .navigation {
@@ -244,76 +388,124 @@ body {
     animation-delay: 2.5s;
 }
 
-/* Адаптация под мобильные устройства */
+/* Рукописный стиль для писем */
+.letter {
+    /* Попытка использовать знакомые рукописные шрифты, затем generic cursive */
+    font-family: "Bradley Hand", "Brush Script MT", "Lucida Handwriting", "Segoe Script", "Dancing Script", cursive;
+    font-size: 1.18em;
+    line-height: 1.6;
+    color: #2b2a25;
+    /* мягкий черный/коричневый для чернил */
+    background: #f0e2d0;
+    /* лёгкий цвет бумаги */
+    /* уменьшенные вертикальные отступы, сохранены комфортные боковые */
+    padding: 12px 28px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+    display: block;
+    /* уменьшить относительную ширину письма внутри родителя, чтобы вокруг оставалось больше воздуха */
+    max-width: 95%;
+    white-space: pre-wrap;
+    /* сохранять переносы при вставке текста */
+    letter-spacing: 0.4px;
+    word-spacing: 1px;
+    text-shadow: 0.4px 0.4px 0 rgba(0, 0, 0, 0.06);
+    transform: rotate(-0.4deg);
+    /* небольшая натуральная неровность */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    /* Центрируем блок письма внутри родителя */
+    margin: 12px auto;
+}
+
+/* Подпись в письме (выровнять вправо, чуть крупнее) */
+.letter .signature {
+    display: block;
+    margin-top: 18px;
+    text-align: right;
+    font-size: 1.25em;
+    color: #2b2a25;
+}
+
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
+    .letter {
+        /* на мобильных делаем письмо шире, но с уменьшенной вертикальной «пригласительной» полкой */
+        max-width: 100%;
+        padding: 10px 18px;
+        font-size: 1.04em;
+        transform: none;
     }
 
-    .book-page {
-        max-width: 95vw;
-        padding: 20px;
-        border-radius: 15px;
-    }
+    /* Адаптация под мобильные устройства */
+    @media (max-width: 768px) {
+        body {
+            padding: 10px;
+        }
 
-    .page-title {
-        font-size: 1.8em;
-        margin-bottom: 20px;
-    }
+        .book-page {
+            max-width: 95vw;
+            padding: 20px;
+            border-radius: 15px;
+        }
 
-    .page-content {
-        font-size: 1.2em;
-        line-height: 1.5;
-        margin-bottom: 30px;
-    }
+        .page-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
 
-    .page-content p {
-        margin-bottom: 15px;
-        text-indent: 15px;
-    }
+        .page-content {
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
 
-    .speech {
-        margin: 10px 0;
-        padding: 8px 0;
-    }
+        .page-content p {
+            margin-bottom: 15px;
+            text-indent: 15px;
+        }
 
-    .speech p {
-        padding-left: 15px;
-        text-indent: -15px;
-    }
+        .speech {
+            margin: 10px 0;
+            padding: 8px 0;
+        }
 
-    .thought {
-        padding: 8px 10px;
-        margin: 10px 0;
-    }
+        .speech p {
+            padding-left: 15px;
+            text-indent: -15px;
+        }
 
-    .illustration {
-        width: 100%;
-        height: 300px;
-        margin: 15px auto;
-    }
+        .thought {
+            padding: 8px 10px;
+            margin: 10px 0;
+        }
 
-    .navigation {
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 20px;
-    }
+        .illustration {
+            width: 100%;
+            height: 300px;
+            margin: 15px auto;
+        }
 
-    .nav-button {
-        padding: 12px 20px;
-        font-size: 1.1em;
-        width: 100%;
-        max-width: 200px;
-    }
+        .navigation {
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
 
-    .page-number {
-        font-size: 1.2em;
-        padding: 6px 12px;
-    }
+        .nav-button {
+            padding: 12px 20px;
+            font-size: 1.1em;
+            width: 100%;
+            max-width: 200px;
+        }
 
-    .stars {
-        display: none;
-        /* Скрываем звезды на мобильных для лучшей производительности */
+        .page-number {
+            font-size: 1.2em;
+            padding: 6px 12px;
+        }
+
+        .stars {
+            display: none;
+            /* Скрываем звезды на мобильных для лучшей производительности */
+        }
     }
 }
 
@@ -347,8 +539,43 @@ body {
     }
 }
 
+/* Fix: prevent list items and long words from overflowing page-content on small screens */
+@media (max-width: 768px) {
+    .page-content {
+        padding: 0 18px;
+        /* give breathing room inside the content box */
+        box-sizing: border-box;
+    }
+
+    .page-content ul,
+    .page-content ol {
+        padding-left: 1.2em;
+        /* keep bullets/numbering visible inside the content */
+        margin-left: 0;
+        list-style-position: outside;
+    }
+
+    .page-content li {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-content {
+        padding: 0 14px;
+        /* slightly smaller on very small screens */
+    }
+
+    .page-content ul,
+    .page-content ol {
+        padding-left: 1.1em;
+    }
+}
+
 /* Адаптация под Telegram Instant View */
 @media (max-width: 600px) and (min-resolution: 2dppx) {
+
     /* Telegram Instant View обычно работает на высокодетализированных экранах */
     .book-page {
         max-width: 100vw;
@@ -358,39 +585,40 @@ body {
         box-shadow: none;
         background: #ffffff;
     }
-    
+
     .page-title {
         font-size: 1.6em;
         margin-bottom: 15px;
         color: #000000;
         text-shadow: none;
     }
-    
+
     .page-content {
         font-size: 1.0em;
         line-height: 1.4;
         margin-bottom: 20px;
         color: #000000;
     }
-    
+
     .page-content p {
         margin-bottom: 12px;
-        text-indent: 0; /* Убираем отступы для IV */
+        text-indent: 0;
+        /* Убираем отступы для IV */
     }
-    
+
     .speech {
         margin: 8px 0;
         padding: 5px 0;
         border-left: 2px solid #cccccc;
         padding-left: 10px;
     }
-    
+
     .speech p {
         padding-left: 15px;
         text-indent: -15px;
         margin-bottom: 3px;
     }
-    
+
     .thought {
         padding: 8px 10px;
         margin: 8px 0;
@@ -398,7 +626,7 @@ body {
         border-left: 3px solid #96ceb4;
         border-radius: 4px;
     }
-    
+
     .illustration {
         width: 100%;
         height: auto;
@@ -406,14 +634,14 @@ body {
         margin: 10px 0;
         border-radius: 8px;
     }
-    
+
     .illustration img {
         width: 100%;
         height: auto;
         object-fit: cover;
         border-radius: 8px;
     }
-    
+
     .navigation {
         flex-direction: row;
         justify-content: space-between;
@@ -422,7 +650,7 @@ body {
         padding: 10px 0;
         border-top: 1px solid #e0e0e0;
     }
-    
+
     .nav-button {
         padding: 8px 15px;
         font-size: 0.9em;
@@ -434,13 +662,13 @@ body {
         text-align: center;
         max-width: 120px;
     }
-    
+
     .nav-button:hover {
         transform: none;
         box-shadow: none;
         background: #005999;
     }
-    
+
     .page-number {
         font-size: 1.0em;
         padding: 4px 8px;
@@ -448,7 +676,7 @@ body {
         color: #666666;
         border-radius: 4px;
     }
-    
+
     .stars {
         display: none;
     }
@@ -459,26 +687,28 @@ body {
     body {
         background: #ffffff;
         padding: 0;
-        font-size: 16px; /* Базовый размер для мобильных браузеров */
+        font-size: 16px;
+        /* Базовый размер для мобильных браузеров */
     }
-    
+
     .book-page {
         border-radius: 0;
         box-shadow: none;
         border: none;
         padding: 10px;
     }
-    
+
     /* Улучшенная читаемость для маленьких экранов */
     .page-content {
         font-size: 1.1em;
         line-height: 1.5;
     }
-    
+
     .speech p::before {
-        content: '— '; /* Используем длинное тире для мобильных */
+        content: '— ';
+        /* Используем длинное тире для мобильных */
     }
-    
+
     .speech span::before {
         content: '— ';
     }
